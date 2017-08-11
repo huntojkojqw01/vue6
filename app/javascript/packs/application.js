@@ -7,8 +7,9 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 import Vue from 'vue'
-import VueCustomElement from 'vue-custom-element'
-Vue.use(VueCustomElement)
+import Axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios,Axios)
 import Users from './users.vue'
 console.log('Hello World from Webpacker')
 document.addEventListener('DOMContentLoaded', () => {
