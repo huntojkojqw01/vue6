@@ -19,6 +19,10 @@
           <td><input v-model="new_user.email"></td>
           <td><button @click="add">New</button></td>          
         </tr>
+        <tr>
+          <td colspan="2"></td>          
+          <td v-for="error in errors">{{error}}</td>          
+        </tr>
       </tbody>
     </table>    
   </div>
@@ -29,7 +33,8 @@ export default {
   data: function () {
     return {      
       users: [],
-      new_user: {name: "",email: ""}
+      new_user: {name: "",email: ""},
+      errors: []
     }
   },
   mounted: function(){
@@ -47,9 +52,20 @@ export default {
       this.users.splice( this.users.indexOf(user), 1 );
     },
     add(){
-      alert(JSON.stringify(this.new_user, null, 3))
-      this.users.push(this.new_user)
-      this.new_user={name: "",email: ""}
+      //alert(JSON.stringify(this.new_user, null, 3))
+      this.axios.post("/users.json",{user: this.new_user})
+        .then(res=>{          
+          if (res.data.length==0){
+            this.users.push(this.new_user)
+            this.new_user={name: "",email: ""}
+          }
+          else{            
+            this.errors=res.data
+          }
+        })
+        .catch(err=>{
+          console.log(err)
+        })     
     }
   } 
 }
