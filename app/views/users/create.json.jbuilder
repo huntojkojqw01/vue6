@@ -1,1 +1,2 @@
-json.array! @user.errors.full_messages
+json.user @user,:id,:name,:email
+json.errors @user.errors.full_messages

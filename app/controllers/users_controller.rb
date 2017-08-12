@@ -3,12 +3,12 @@ class UsersController < ApplicationController
 	def index
 		@users=User.page(params[:page]).per(params[:per_page]||10)
 	end
-	def create
+	def create		
 		@user=User.new(user_params)
 		@user.save	
 	end
-	def destroy
-		user=User.find_by(params[:id])
+	def destroy		
+		user=User.find_by_id(params[:id])
 		user.destroy if user			
 	end
 	private

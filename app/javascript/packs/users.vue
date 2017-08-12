@@ -49,18 +49,28 @@ export default {
   },
   methods: {
     del(user){
-      this.users.splice( this.users.indexOf(user), 1 );
+      // alert(JSON.stringify(user, null, 3))
+      this.axios.delete("/users/"+user.id)
+        .then(res=>{
+          // console.log(res)
+          this.users.splice( this.users.indexOf(user), 1 );
+        })
+        .catch(err=>{
+          console.log(err)
+        })      
     },
     add(){
       //alert(JSON.stringify(this.new_user, null, 3))
       this.axios.post("/users.json",{user: this.new_user})
-        .then(res=>{          
-          if (res.data.length==0){
-            this.users.push(this.new_user)
+        .then(res=>{
+          // console.log(res)          
+          if (res.data.errors.length==0){
+            this.users.push(res.data.user)
             this.new_user={name: "",email: ""}
+            this.errors=[]
           }
           else{            
-            this.errors=res.data
+            this.errors=res.data.errors
           }
         })
         .catch(err=>{
